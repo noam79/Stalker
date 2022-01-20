@@ -1,0 +1,46 @@
+Server:
+
+	TCPServer
+		atomic bool IsRunning
+		void start()
+		void stop()
+				
+	TCPServer depends on:
+			
+		ITcpListener:
+			TcpClient Accept()
+			Close()
+			
+		ITcpClientHandler:
+			void HandleClient(TcpClient)
+			Close()
+			
+			
+	Concrete:
+		ClientListener: ITcpListener
+		ScreenshotClientHandler: ITcpClientHandler
+			
+	
+Client:
+
+	Client: IDisposable
+		int ip
+		int port
+		void Communicate(ip, port)
+	
+	Client depends on:
+	
+			IServerContact: IDisposable
+				Connect(ip, port)
+				Send(object)
+				object Recieve()
+				
+			IClientBehavior
+				void Act(IServerContact)
+			
+	Concrete:
+		
+		TcpClientContact: IServerContact
+		ScreenshotSaverClient: IClientBehavior
+	
+	
